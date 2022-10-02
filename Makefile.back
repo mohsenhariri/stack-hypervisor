@@ -1,0 +1,74 @@
+# PATH := ./bin:${PATH}
+.PHONY: bin
+
+include .env
+export
+
+%: # https://www.gnu.org/software/make/manual/make.html#Automatic-Variables 
+		@:
+
+start:
+		sudo systemctl start libvirtd
+# virt-install --osinfo list | grep ubuntu22
+name := "us22"
+ubutu:
+		virt-install \
+		--name linux2020 \
+		--ram 4096 \
+		# --ram 6144 \
+		--disk path=$(ROOT_IMAGES)/$(name).qcow2,size=50 \
+		--vcpus 2 \
+		--os-variant generic \
+		--console pty,target_type=serial \
+		--cdrom $(ROOT_ISOS)/ubuntu-22.04-live-server-amd64.iso
+
+name := "ud22"
+ubutu-desktop:
+		virt-install \
+		--name $(name) \
+		--ram 4096 \
+		--disk path=$(ROOT_IMAGES)/$(name).qcow2,size=50 \
+		--vcpus 2 \
+		--os-variant generic \
+		--console pty,target_type=serial \
+		--cdrom $(ROOT_ISOS)/ubuntu-22.04-desktop-amd64.iso
+
+cone:
+		virt-clone \
+		--original ubuntu18.04 \
+		--name cloned-ubuntu \
+		--file $(ROOT_IMAGES)/cu.qcow2
+
+
+virsh:
+		virsh list --all
+
+make one:
+		sudo virt-install \
+		--name u20 \
+		--ram 2048 \
+		--disk path=/media/mohsen/Arc/libvirt/images/ud222.qcow2,size=16 \
+		--vcpus 2 \
+		--cdrom /media/mohsen/Arc/libvirt/iso/ubuntu-22.04-desktop-amd64.iso
+
+
+$ sudo virt-install --name=debian-vm \
+--os-type=Linux \
+--os-variant=debian11 \
+--vcpu=2 \
+--ram=4096 \
+--disk path=/etc/libvirt/storages/deb.qcow2,size=30 \
+--graphics spice \
+--location=/etc/libvirt/isos/debian-11.4.0-amd64-netinst.iso  \
+--network bridge:virbr0
+
+
+$ sudo virt-install --name=debian-vm \
+--os-type=Linux \
+--os-variant=debian11 \
+--vcpu=2 \
+--ram=4096 \
+--disk path=/home/mohsen/.local/share/libvirt/deb.qcow2,size=30 \
+--graphics spice \
+--location=/home/mohsen/.local/share/libvirt/images/debian-11.4.0-amd64-netinst.iso  \
+--network bridge:virbr0

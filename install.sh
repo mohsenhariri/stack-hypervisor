@@ -3,7 +3,6 @@ echo "Number of cores:"
 egrep -c '(vmx|svm)' /proc/cpuinfo
 
 echo "KVM acceleration"
-# k=$(kvm-ok 2>&1| grep "can be used")
 CHK=$(kvm-ok | grep "can be used")
 if [[ $CHK=="KVM acceleration can be used" ]]; then
     echo "Checked."
@@ -12,7 +11,10 @@ else
     exit 1
 fi
 
-PKG="qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst"
+PKG="qemu-kvm libvirt-daemon-system libvirt-clients virtinst bridge-utils"
+
+PKG="qemu-kvm libvirt-daemon-system libvirt-clients virtinst"
+
 
 apt update
 apt upgrade

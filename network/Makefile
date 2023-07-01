@@ -36,8 +36,10 @@ virsh-net-create:
 
 NET := extnet
 VM_NAME := vm1
-get-vm-mach:
+VM_HOST_NAME := vm1-host
+
+get-vm-mac:
 		virsh dumpxml $(VM_NAME) | grep 'mac address' | awk -F "'" '{print $2}'
 
 get-vm-ip:
-		virsh net-dhcp-leases $(NET) | grep $(VM_NAME) | awk '{print $5}'
+		virsh net-dhcp-leases $(NET) | grep $(VM_HOST_NAME) | awk '{print $5}'

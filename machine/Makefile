@@ -71,8 +71,6 @@ virt-install:
 			--cdrom "$(ISO)/debian-bookworm-DI-rc4-amd64-netinst.iso" \
 			--graphics spice 
 
-
-
 virt-install-vnc:
 		$(VIRT_INSTALL) \
 			--name $(VM0) \
@@ -84,31 +82,18 @@ virt-install-vnc:
 			--cdrom "$(ISO)/debian-bookworm-DI-rc2-amd64-netinst.iso" \
 			--graphics vnc,password=$(VNC_PASSWD),port=$(VNC_PORT)
 
+# Clone VMs
 
+VM_ORIGINAL := vm-deb1
+VM_NAME := vm-deb2
+clone:
+		$(VIRT_CLONE) --original $(VM_ORIGINAL) --name $(VM_NAME) --file $(STORAGE)/$(VM_NAME).qcow2
 
+clone-debug:
+		$(VIRT_CLONE) --print-xml --debug --original $(VM_ORIGINAL) --name $(VM_NAME) --file $(STORAGE)/$(VM_NAME).qcow2
 
-# clone:
-# 		sudo virt-clone --original debian11 --name debian11-1 --auto-clone
-
-
-# clone:
-# 		sudo virt-clone --print-xml --debug --original debian11 --name debian11-1 --auto-clone 
-
-
-
-# clone:
-# 		sudo virt-clone --original vm1 --name vm3 --file /home/mohsen/virtspace/storages/mint-vm3.qcow2 
-
-
-
-# clone:
-# 		sudo virt-clone --debug --original vm1 --name vm3 --file /home/mohsen/virtspace/storages/mint-vm3.qcow2 
-
-
-
-# clone:
-# 		sudo virt-clone --print-xml --debug --original vm1 --name vm3 --file /home/mohsen/virtspace/storages/mint-vm3.qcow2 
-
+clone-auto:
+		$(VIRT_CLONE) --original $(VM_ORIGINAL) --name $(VM_NAME) --auto-clone
 
 # View VMs
 
